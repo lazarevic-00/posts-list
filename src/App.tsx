@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import {QueryClient, QueryClientProvider} from 'react-query';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import Footer from './shared/components/Footer';
+import Header from './shared/components/Header';
+import {routes} from './utils/routes/routes';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const queryClient = new QueryClient();
+
+const App: React.FC = () => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Router>
+                <div className="d-flex flex-column min-vh-100">
+                    <Header/>
+                    <div className="flex-grow-1">
+                        <Routes>
+                            {routes.map(({path, id, element}) => {
+                                return (
+                                    <Route key={id} path={path} element={element}/>
+                                )
+                            })}
+                        </Routes>
+                    </div>
+                    <Footer/>
+                </div>
+            </Router>
+        </QueryClientProvider>
+    );
+};
 
 export default App;
