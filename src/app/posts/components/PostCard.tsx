@@ -46,7 +46,7 @@ const PostCard: React.FC<IPost> = ({id, userId, body, title, isList = true}) => 
                         {body}
                     </Card.Text>
                     <div className="mb-2">
-                        {!isLoading && <LoadingScreen message="Loading comments..."/>}
+                        {isLoading && <LoadingScreen message="Loading comments..."/>}
                         {isError && <ErrorScreen message={error?.message}/>}
                         {isExpanded && comments?.map(({id, body, name, email}) => {
                             return (
