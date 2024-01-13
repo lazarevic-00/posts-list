@@ -43,36 +43,37 @@ const Header: React.FC = () => {
                                 )
                             })}
                     </Nav>
+
+                    {showSearchFilter && (
+                        <div className="d-flex align-items-center">
+                            <select
+                                onChange={(e) => handleSelectUser(Number(e.target.value))}
+                                value={pagination?.userId || ''}
+                                className="form-select w-md-25"
+                            >
+                                <option hidden>Filter by user name</option>
+                                {users?.map(({id, name}) => (
+                                    <option value={id} key={id}>
+                                        {name}
+                                    </option>
+                                ))}
+                            </select>
+                            {!!pagination?.userId && (
+                                <Button
+                                    size="sm"
+                                    onClick={() => {
+                                        handleSelectUser(null);
+                                    }}
+                                    className="ms-2"
+                                    variant="outline-primary text-uppercase"
+                                >
+                                    Clear
+                                </Button>
+                            )}
+                        </div>
+                    )}
                 </Navbar.Collapse>
 
-                {showSearchFilter && (
-                    <>
-                        <select
-                            onChange={(e) => handleSelectUser(Number(e.target.value))}
-                            value={pagination?.userId || ''}
-                            className="form-select w-25"
-                        >
-                            <option hidden>Filter by user name</option>
-                            {users?.map(({id, name}) => (
-                                <option value={id} key={id}>
-                                    {name}
-                                </option>
-                            ))}
-                        </select>
-                        {!!pagination?.userId && (
-                            <Button
-                                size="sm"
-                                onClick={() => {
-                                    handleSelectUser(null);
-                                }}
-                                className="ms-2"
-                                variant="outline-primary text-uppercase"
-                            >
-                                Clear
-                            </Button>
-                        )}
-                    </>
-                )}
             </Container>
         </Navbar>
     );
