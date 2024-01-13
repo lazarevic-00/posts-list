@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import {useQuery} from 'react-query';
 import ErrorScreen from '../../shared/components/ErrorScreen';
-import LoadingScreen from '../../shared/components/LoadingScreen';
+import SkeletonCard from '../../shared/components/SkeletonCard';
 import {usePagination} from '../../shared/hooks/usePagination';
 import {IGallery} from '../../shared/model/Gallery';
 import {IPagination} from '../../shared/model/Pagination';
@@ -38,7 +38,7 @@ const Gallery: React.FC = () => {
     }
 
     if (isLoading) {
-        return <LoadingScreen message="Loading images..."/>;
+        return <SkeletonCard colSize={2} nbElements={20}/>
     }
 
     if (isError) {

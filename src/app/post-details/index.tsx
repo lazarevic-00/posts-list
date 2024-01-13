@@ -3,7 +3,7 @@ import {Col, Row} from 'react-bootstrap';
 import {useQuery} from 'react-query';
 import {useParams} from 'react-router-dom';
 import ErrorScreen from '../../shared/components/ErrorScreen';
-import LoadingScreen from '../../shared/components/LoadingScreen';
+import SkeletonCard from '../../shared/components/SkeletonCard';
 import {IPost} from '../../shared/model/Post';
 import PostCard from '../posts/components/PostCard';
 import {PostsService} from '../posts/service';
@@ -23,7 +23,7 @@ const PostDetails: React.FC = () => {
     });
 
     if (isLoading) {
-        return <LoadingScreen message="Loading post..."/>;
+        return <SkeletonCard nbElements={1} colSize={12}/>
     }
 
     if (isError) {

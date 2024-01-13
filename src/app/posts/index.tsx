@@ -3,7 +3,7 @@ import {Row} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useQuery} from 'react-query';
 import ErrorScreen from '../../shared/components/ErrorScreen';
-import LoadingScreen from '../../shared/components/LoadingScreen';
+import SkeletonCard from '../../shared/components/SkeletonCard';
 import {IPagination} from '../../shared/model/Pagination';
 import {IPost} from '../../shared/model/Post';
 import {usePostPaginationContext} from '../../utils/context/PostPaginationContext';
@@ -33,7 +33,7 @@ const Posts: React.FC = () => {
     );
 
     if (isLoading) {
-        return <LoadingScreen message="Loading posts..."/>;
+        return <SkeletonCard/>
     }
 
     if (isError) {

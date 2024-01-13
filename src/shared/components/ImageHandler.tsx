@@ -16,6 +16,7 @@ const ImageHandler: React.FC<ImageHandlerProps> = ({onError, ...props}) => {
     return (
         <img
             {...props}
+            alt={props?.alt || props?.title}
             onError={handleImageError}
             loading="lazy"
         />
