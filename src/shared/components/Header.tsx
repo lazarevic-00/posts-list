@@ -1,16 +1,21 @@
 import React from 'react';
-import {Form, InputGroup} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {useLocation, useNavigate} from 'react-router-dom';
+import {usePostPaginationContext} from '../../utils/context/PostPaginationContext';
+import {users} from '../../utils/data/users';
 import {routes} from '../../utils/routes/routes';
-import {SearchIcon} from './Icons';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const {pathname} = useLocation();
+    const {changeFilterHandler, pagination} = usePostPaginationContext();
     const showSearchFilter = pathname === '/';
+    const handleSelectUser = (userId: number | null) => {
+        changeFilterHandler('userId', userId)
+    }
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -40,17 +45,34 @@ const Header: React.FC = () => {
                     </Nav>
                 </Navbar.Collapse>
 
-                {showSearchFilter && <InputGroup className="w-25">
-                    <InputGroup.Text id="serach-icon">
-                        <SearchIcon/>
-                    </InputGroup.Text>
-                    <Form.Control
-                        placeholder="Search by name"
-                        onChange={(event) => {
-                            console.log('aaa')
-                        }}
-                    />
-                </InputGroup>}
+                {showSearchFilter && (
+                    <>
+                        <select
+                            onChange={(e) => handleSelectUser(Number(e.target.value))}
+                            value={pagination?.userId || ''}
+                            className="form-select w-25"
+                        >
+                            <option hidden>Filter by user name</option>
+                            {users?.map(({id, name}) => (
+                                <option value={id} key={id}>
+                                    {name}
+                                </option>
+                            ))}
+                        </select>
+                        {!!pagination?.userId && (
+                            <Button
+                                size="sm"
+                                onClick={() => {
+                                    handleSelectUser(null);
+                                }}
+                                className="ms-2"
+                                variant="outline-primary text-uppercase"
+                            >
+                                Clear
+                            </Button>
+                        )}
+                    </>
+                )}
             </Container>
         </Navbar>
     );
