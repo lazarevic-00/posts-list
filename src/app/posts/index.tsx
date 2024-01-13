@@ -17,7 +17,6 @@ const fetchPosts = async (pagination: IPagination): Promise<IPost[]> => {
 
 const Posts: React.FC = () => {
     const {pagination, changeFilterHandler} = usePostPaginationContext();
-
     const {
         data: posts,
         isLoading,

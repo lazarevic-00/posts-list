@@ -26,11 +26,8 @@ const PostDetails: React.FC = () => {
         return <SkeletonCard nbElements={1} colSize={12}/>
     }
 
-    if (isError) {
-        return <ErrorScreen message={error?.message}/>
-    }
-    if (!post) {
-        return <ErrorScreen message="Not found"/>
+    if (isError || !post) {
+        return <ErrorScreen message={error?.message || 'Not found'}/>
     }
     return (
         <div className="container mt-3">
