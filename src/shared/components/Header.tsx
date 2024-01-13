@@ -7,6 +7,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {usePostPaginationContext} from '../../utils/context/PostPaginationContext';
 import {users} from '../../utils/data/users';
 import {routes} from '../../utils/routes/routes';
+import ImageHandler from './ImageHandler';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -21,9 +22,8 @@ const Header: React.FC = () => {
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand>
-                    <img
+                    <ImageHandler
                         alt="Bootstrap logo"
-                        loading="lazy"
                         onClick={() => navigate('/')}
                         src="https://react-bootstrap.netlify.app/img/logo.svg"
                         className="header-logo "/>

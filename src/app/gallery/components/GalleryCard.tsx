@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card} from 'react-bootstrap';
+import ImageHandler from '../../../shared/components/ImageHandler';
 import {IGallery} from '../../../shared/model/Gallery';
 
 const GalleryCard: React.FC<IGallery> = ({
@@ -11,7 +12,7 @@ const GalleryCard: React.FC<IGallery> = ({
                                          }) => {
     return (
         <Card>
-            <Card.Img variant="top" loading="lazy" className="w-100" src={thumbnailUrl}/>
+            <ImageHandler className="w-100" src={thumbnailUrl}/>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <div>
