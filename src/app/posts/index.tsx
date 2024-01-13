@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {SetStateAction, useState} from 'react';
 import {Row} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useQuery} from 'react-query';
@@ -11,11 +11,15 @@ import PostCard from './components/PostCard';
 import {PostsService} from './service';
 
 
-const fetchPosts = async (pagination: IPagination): Promise<IPost[]> => {
-    return await PostsService.getPosts(pagination);
+const fetchPosts = async (pagination: IPagination, setTotalCount: React.Dispatch<SetStateAction<number>>): Promise<IPost[]> => {
+    const response = await PostsService.getPosts(pagination);
+    const totalNumberOfPosts = response?.headers?.['x-total-count'];
+    setTotalCount(Number(totalNumberOfPosts));
+    return response?.data;
 }
 
 const Posts: React.FC = () => {
+    const [totalCount, setTotalCount] = useState<number>(0)
     const {pagination, changeFilterHandler} = usePostPaginationContext();
     const {
         data: posts,
@@ -24,7 +28,7 @@ const Posts: React.FC = () => {
         error,
     } = useQuery<IPost[], Error>(
         ['posts', pagination],
-        () => fetchPosts(pagination),
+        () => fetchPosts(pagination, setTotalCount),
         {
             keepPreviousData: true,
             getNextPageParam: (lastPage, allPages) => (lastPage.length === 10 ? allPages.length + 1 : undefined),
@@ -44,7 +48,7 @@ const Posts: React.FC = () => {
             <InfiniteScroll
                 dataLength={posts?.length || 0}
                 next={() => changeFilterHandler('_limit', pagination?._limit + 10)}
-                hasMore={!!posts ? posts?.length < 99 : false}
+                hasMore={pagination?._limit < totalCount}
                 loader={<p className="text-center">Loading more...</p>}
                 endMessage={<p className="text-center fw-bold">You reached end!</p>}
             >

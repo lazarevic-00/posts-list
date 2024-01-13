@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 
 const defaultOptions = {
     headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        'Content-type': 'application/json; charset=UTF-8; x-total-count',
         accept: 'text/html',
     },
 };
@@ -17,7 +17,7 @@ instance.interceptors.request.use(function (config) {
     return config;
 });
 
-const responseBody = (response: AxiosResponse) => response.data;
+const responseBody = (response: AxiosResponse, returnAll = false) => returnAll ? response : response.data;
 const rejectResponse = (arg: string) => Promise.reject(arg);
 
 export const requests = {
@@ -53,6 +53,13 @@ export const requests = {
         instance
             .delete(url)
             .then(responseBody)
+            .catch((e) => {
+                throw e;
+            }),
+    getWithHeaders: (url: string, params?: {}) =>
+        instance
+            .get(url, {params})
+            .then((res) => responseBody(res, true))
             .catch((e) => {
                 throw e;
             }),

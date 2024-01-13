@@ -7,7 +7,10 @@ import {requests} from '../../utils/helpers/api.service';
 
 export const PostsService = {
     getUsers: (): Promise<IUser[]> => requests.get(USER_URL),
-    getPosts: (pagination?: IPagination): Promise<IPost[]> => requests.get(POSTS_URL, pagination),
+    getPosts: (pagination?: IPagination): Promise<{
+        data: IPost[],
+        headers: Record<string, string | string[]>
+    }> => requests.getWithHeaders(POSTS_URL, pagination),
     getPostById: (postId: number): Promise<IPost> => requests.get(`${POSTS_URL}/${postId}`),
     getCommentsForPostById: (postId: number): Promise<IComment[]> => requests.get(`${POSTS_URL}/${postId}/comments`)
 }
